@@ -1,0 +1,238 @@
+from pathlib import Path
+import zipfile, re
+
+path = Path("/mnt/data/strawberry_love_gift/index.html")
+html = path.read_text(encoding="utf-8")
+
+# Dialect wording fixes
+html = html.replace("الموقع يكول: لا تكذبين عليه، هو حساس.", "الموقع يكول: لاتجذبين عليه، هو حساس.")
+html = html.replace("غريبة، الزر هذا شكله خربان عندج بس.", "غريب، الزر هذا شكله خربان عندج بس.")
+
+# Make the layout more mobile-first and phone-oriented
+extra_css = r'''
+    /* ===== Mobile-first polish ===== */
+    @media (max-width:780px){
+      html,body{
+        min-height:100%;
+        background:
+          radial-gradient(circle at 16% 8%, rgba(255,255,255,.95) 0 5%, transparent 6%),
+          linear-gradient(180deg,#ffe8f0 0%,#fff7f4 54%,#ffe1ea 100%);
+      }
+
+      body{
+        display:block;
+        padding:0;
+      }
+
+      .wrap{
+        width:100%;
+        min-height:100vh;
+        border-radius:0;
+        box-shadow:none;
+        border:0;
+        display:flex;
+        flex-direction:column;
+        background:rgba(255,255,255,.76);
+      }
+
+      .gift-side{
+        min-height:42vh;
+        padding:22px 16px 12px;
+        border-radius:0 0 30px 30px;
+      }
+
+      .mini-title{
+        width:100%;
+        text-align:center;
+        font-size:12px;
+      }
+
+      .bouquet{
+        width:300px;
+        height:365px;
+        transform:scale(.78);
+        margin:-32px auto -54px;
+      }
+
+      .tag{
+        font-size:12px;
+        padding:9px 14px;
+        margin:0 auto 8px;
+      }
+
+      .card-side{
+        min-height:58vh;
+        padding:26px 18px 28px;
+        justify-content:flex-start;
+      }
+
+      .eyebrow{
+        text-align:center;
+        margin-top:2px;
+      }
+
+      h1{
+        text-align:center;
+        font-size:31px;
+      }
+
+      .sub{
+        text-align:center;
+        margin:12px auto 20px;
+        font-size:14px;
+        line-height:1.8;
+      }
+
+      .progress{
+        justify-content:center;
+        margin-bottom:18px;
+      }
+
+      .dot{
+        width:26px;
+        height:6px;
+      }
+
+      .question-box{
+        min-height:0;
+        padding:19px 16px;
+        border-radius:22px;
+      }
+
+      .q-num{
+        text-align:center;
+      }
+
+      .question{
+        text-align:center;
+        font-size:22px;
+        margin-bottom:18px;
+      }
+
+      .actions{
+        flex-direction:column;
+        gap:10px;
+      }
+
+      .actions button{
+        width:100%;
+        min-height:50px;
+        font-size:16px;
+      }
+
+      .reply{
+        text-align:center;
+        font-size:14px;
+        min-height:46px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+
+      .signature{
+        text-align:center;
+        margin-top:18px;
+      }
+
+      .final{
+        padding-top:16px;
+      }
+
+      .final h2{
+        font-size:28px;
+      }
+
+      .final p{
+        font-size:14px;
+      }
+    }
+
+    @media (max-width:390px){
+      .bouquet{
+        transform:scale(.7);
+        margin:-48px auto -72px;
+      }
+
+      .gift-side{
+        min-height:39vh;
+      }
+
+      .card-side{
+        padding-left:14px;
+        padding-right:14px;
+      }
+
+      h1{
+        font-size:28px;
+      }
+
+      .question{
+        font-size:20px;
+      }
+    }
+'''
+
+# Insert before closing style if not already inserted
+if "Mobile-first polish" not in html:
+    html = html.replace("</style>", extra_css + "\n  </style>", 1)
+
+path.write_text(html, encoding="utf-8")
+
+# Refresh README with clearer run instructions
+readme_path = Path("/mnt/data/strawberry_love_gift/README.txt")
+readme = '''تشغيل الموقع
+============
+
+على الكمبيوتر:
+1) فك الضغط عن الملف.
+2) افتح index.html مباشرة بالمتصفح.
+3) ما يحتاج إنترنت ولا تنصيب.
+
+حتى تفتحه على الهاتف من نفس الواي فاي:
+1) افتح مجلد الموقع على الكمبيوتر.
+2) افتح CMD داخل نفس المجلد.
+3) شغّل:
+   python -m http.server 8000
+
+4) اعرف IP الكمبيوتر بكتابة:
+   ipconfig
+
+5) ابحث عن IPv4 Address، مثال:
+   192.168.1.5
+
+6) من الهاتف افتح:
+   http://192.168.1.5:8000
+
+مهم:
+- الهاتف والكمبيوتر لازم يكونون على نفس شبكة Wi-Fi.
+- إذا Windows Firewall طلب سماح لـ Python، وافق على Private networks.
+
+تعديل الاسم
+===========
+
+داخل index.html ابحث عن:
+
+const HER_NAME = "ميمي";
+const YOUR_NAME = "حسين";
+
+وغيّر القيم فقط.
+
+تعديل الأسئلة
+=============
+
+داخل نفس الملف ستجد:
+const questions = [...]
+
+تقدر تغيّر السؤال، زر الموافقة، وردود زر "لا".
+
+الموقع مصمم Mobile-first ومناسب للهاتف.
+'''
+readme_path.write_text(readme, encoding="utf-8")
+
+zip_path = Path("/mnt/data/strawberry_love_gift_mobile.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    z.write(path, arcname="strawberry_love_gift/index.html")
+    z.write(readme_path, arcname="strawberry_love_gift/README.txt")
+
+print("Updated mobile-first version created:")
+print(zip_path)
