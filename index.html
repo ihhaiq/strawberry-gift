@@ -49,12 +49,39 @@
       margin:2px 0 14px;
     }
     .card{
-      background:rgba(255,255,255,.84);
-      border:1px solid rgba(255,255,255,.95);
-      border-radius:30px;
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.42),rgba(255,255,255,.14));
+      border:1px solid rgba(255,255,255,.72);
+      border-radius:32px;
       padding:22px 18px 20px;
-      box-shadow:0 22px 60px rgba(113,55,77,.15);
-      backdrop-filter:blur(14px);
+      box-shadow:
+        0 24px 70px rgba(108,47,76,.18),
+        inset 0 1px 0 rgba(255,255,255,.92),
+        inset 0 -1px 0 rgba(255,255,255,.18);
+      backdrop-filter:blur(30px) saturate(155%);
+      -webkit-backdrop-filter:blur(30px) saturate(155%);
+    }
+    .card:before,
+    .card:after{
+      content:"";
+      position:absolute;
+      z-index:-1;
+      border-radius:999px;
+      filter:blur(6px);
+      pointer-events:none;
+    }
+    .card:before{
+      width:180px;height:180px;
+      top:-65px;right:-55px;
+      background:radial-gradient(circle,rgba(255,178,206,.52),rgba(255,178,206,0) 70%);
+    }
+    .card:after{
+      width:220px;height:220px;
+      left:-95px;bottom:-80px;
+      background:radial-gradient(circle,rgba(184,229,181,.35),rgba(184,229,181,0) 72%);
     }
 
     /* bouquet */
@@ -79,21 +106,28 @@
     .paper{
       position:absolute;
       left:50%;
-      bottom:6px;
-      width:210px;
-      height:190px;
+      bottom:3px;
+      width:238px;
+      height:202px;
       transform:translateX(-50%);
-      background:linear-gradient(145deg,#f4bfce,#fff1f5 52%,#eab2c2);
-      clip-path:polygon(9% 5%,91% 5%,74% 100%,26% 100%);
-      border-radius:18px;
-      filter:drop-shadow(0 13px 12px rgba(76,34,44,.14));
+      background:linear-gradient(145deg,#d8b8d8 0 37%,#bce5a8 38% 67%,#f0cee4 68%);
+      clip-path:polygon(3% 3%,26% 13%,43% 1%,58% 16%,80% 2%,98% 18%,78% 100%,22% 100%);
+      border-radius:20px;
+      filter:drop-shadow(0 15px 14px rgba(76,34,44,.16));
+    }
+    .paper:before{
+      content:"";
+      position:absolute;
+      inset:16px 20px 35px;
+      background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.02));
+      clip-path:polygon(0 0,25% 15%,44% 2%,61% 18%,82% 1%,100% 20%,77% 100%,21% 100%);
     }
     .paper:after{
       content:"";
       position:absolute;
-      inset:23px 26px 30px;
-      border:2px dashed rgba(107,58,65,.12);
-      border-radius:15px;
+      left:18px;right:18px;bottom:21px;height:62px;
+      background:rgba(77,124,65,.13);
+      clip-path:polygon(0 20%,48% 0,100% 22%,76% 100%,22% 100%);
     }
     .ribbon{
       position:absolute;
@@ -231,11 +265,15 @@
     }
     .dot.on{background:linear-gradient(90deg,var(--pink),#ffb2ca)}
     .question-box{
-      background:#fffafd;
-      border:1px solid #f3dce4;
-      border-radius:22px;
+      background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.18));
+      border:1px solid rgba(255,255,255,.72);
+      border-radius:23px;
       padding:18px 15px;
-      box-shadow:0 11px 25px rgba(114,58,79,.07);
+      box-shadow:
+        0 13px 30px rgba(114,58,79,.10),
+        inset 0 1px 0 rgba(255,255,255,.9);
+      backdrop-filter:blur(20px) saturate(150%);
+      -webkit-backdrop-filter:blur(20px) saturate(150%);
     }
     .qnum{
       text-align:center;
@@ -278,8 +316,11 @@
     }
     .no{
       color:#744d59;
-      background:#fff;
-      border:1px solid #ecd4dd;
+      background:rgba(255,255,255,.46);
+      border:1px solid rgba(255,255,255,.75);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
     }
     .reply{
       min-height:49px;
@@ -337,6 +378,85 @@
     @keyframes up{
       to{transform:translateY(-115vh) rotate(28deg);opacity:0}
     }
+
+    .berry.small{width:45px;height:56px}
+    .berry.mini{width:38px;height:47px}
+    .berry.pink{
+      background:
+        radial-gradient(circle at 32% 27%,rgba(255,255,255,.42) 0 7%,transparent 8%),
+        linear-gradient(150deg,#ff9dbe,#ef72a2 58%,#d55588);
+    }
+    .berry.pink .dip{
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(155deg,#f5a4c1,#da6895);
+    }
+    .berry.chocolate .dip{
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(155deg,#8a5148,#48231f);
+    }
+    .berry.chocolate:after,.berry.pink:after{opacity:.38}
+    .blue{
+      position:absolute;
+      z-index:7;
+      width:18px;height:18px;
+      border-radius:50%;
+      background:radial-gradient(circle at 34% 30%,#7389bb 0 14%,#344d82 30%,#20345f 72%);
+      box-shadow:0 5px 8px rgba(32,52,95,.22);
+    }
+    .blue:after{
+      content:"";
+      position:absolute;
+      width:7px;height:7px;
+      left:5px;top:2px;
+      background:#8ca0c8;
+      clip-path:polygon(50% 0,62% 34%,100% 28%,72% 55%,82% 100%,50% 72%,18% 100%,28% 55%,0 28%,38% 34%);
+      opacity:.65;
+    }
+    .leafsprig{
+      position:absolute;
+      z-index:4;
+      width:52px;height:34px;
+      filter:drop-shadow(0 4px 5px rgba(43,83,52,.12));
+    }
+    .leafsprig:before,.leafsprig:after{
+      content:"";
+      position:absolute;
+      width:25px;height:13px;
+      border-radius:80% 0 80% 0;
+      background:linear-gradient(135deg,#75b765,#3f8650);
+    }
+    .leafsprig:before{left:0;top:9px;transform:rotate(24deg)}
+    .leafsprig:after{right:0;top:2px;transform:scaleX(-1) rotate(20deg)}
+    .l1{left:30px;top:65px;transform:rotate(-25deg)}
+    .l2{right:26px;top:54px;transform:rotate(28deg)}
+    .l3{left:108px;top:18px;transform:rotate(4deg)}
+    .bb1{left:43px;top:101px}.bb2{left:86px;top:54px}.bb3{right:42px;top:103px}
+    .bb4{right:87px;top:63px}.bb5{left:110px;top:147px}.bb6{right:107px;top:137px}
+    .b1{top:29px;left:108px;--r:-2deg}
+    .b2{top:69px;left:47px;--r:-12deg;animation-delay:.4s}
+    .b3{top:72px;right:48px;--r:12deg;animation-delay:.8s}
+    .b4{top:116px;left:18px;--r:-15deg;animation-delay:1.2s}
+    .b5{top:112px;left:106px;--r:2deg;animation-delay:1.6s}
+    .b6{top:118px;right:20px;--r:14deg;animation-delay:2s}
+    .b7{top:162px;left:58px;--r:-7deg;animation-delay:2.3s}
+    .b8{top:162px;right:59px;--r:8deg;animation-delay:2.6s}
+    .b9{top:91px;left:84px;--r:7deg;animation-delay:.6s}
+    .b10{top:92px;right:87px;--r:-7deg;animation-delay:1s}
+    .b11{top:145px;left:101px;--r:-3deg;animation-delay:1.8s}
+    .b12{top:145px;right:104px;--r:4deg;animation-delay:2.1s}
+    .final-link{
+      color:inherit;
+      text-decoration:none;
+      display:inline-block;
+      padding:4px 6px;
+      border-radius:14px;
+      transition:transform .18s ease,opacity .18s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .final-link:active{transform:scale(.97);opacity:.78}
+
     @media (min-width:600px){
       .page{padding-top:28px;padding-bottom:40px}
       .card{padding:26px 26px 24px}
@@ -356,14 +476,23 @@
         <div class="bouquet-wrap" aria-label="باقة فراولة مغطاة بالشوكولاتة">
           <div class="bouquet">
             <div class="paper"></div>
-            <div class="berry b1"><i class="dip"></i><i class="stripe"></i></div>
+            <i class="leafsprig l1"></i><i class="leafsprig l2"></i><i class="leafsprig l3"></i>
+
+            <div class="berry b1 chocolate"><i class="dip"></i><i class="stripe"></i></div>
             <div class="berry b2"><i class="dip"></i><i class="stripe"></i></div>
-            <div class="berry b3"><i class="dip"></i><i class="stripe"></i></div>
-            <div class="berry b4"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b3 pink"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b4 chocolate small"><i class="dip"></i><i class="stripe"></i></div>
             <div class="berry b5"><i class="dip"></i><i class="stripe"></i></div>
-            <div class="berry b6"><i class="dip"></i><i class="stripe"></i></div>
-            <div class="berry b7"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b6 chocolate"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b7 pink small"><i class="dip"></i><i class="stripe"></i></div>
             <div class="berry b8"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b9 mini"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b10 chocolate mini"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b11 pink mini"><i class="dip"></i><i class="stripe"></i></div>
+            <div class="berry b12 chocolate mini"><i class="dip"></i><i class="stripe"></i></div>
+
+            <i class="blue bb1"></i><i class="blue bb2"></i><i class="blue bb3"></i>
+            <i class="blue bb4"></i><i class="blue bb5"></i><i class="blue bb6"></i>
             <div class="ribbon"></div>
           </div>
         </div>
@@ -392,7 +521,7 @@
 
       <div class="final" id="final">
         <div class="heart">💗</div>
-        <h2>كنت أعرف الإجابة أصلًا.</h2>
+        <h2><a class="final-link" href="https://youtube.com/shorts/BwjkRSSExQM?si=c186NoclOLT3aWHz" target="_blank" rel="noopener noreferrer">ادري بيك تحبني ماداعي الكلام</a></h2>
         <p>
           هاي الباقة إلج، لأن الأشياء الحلوة لازم تروح للشخص الأحلى.
           وأتمنى كل يوم وياج يكون أخف وألطف وأحلى من اليوم اللي قبله.
